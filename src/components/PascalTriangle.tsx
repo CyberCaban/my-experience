@@ -1,5 +1,7 @@
 import { useDeferredValue, useState } from "react";
 import Canvas from "./Canvas";
+import { getPascalTriangle } from "../utils";
+import TriagElement from "./TriagElement";
 
 function PascalTriangle() {
   const [size, setSize] = useState(1);
@@ -8,6 +10,9 @@ function PascalTriangle() {
   const [scale, setScale] = useState<number>(1);
 
   const deferredSize = useDeferredValue(size);
+
+  let triangle = getPascalTriangle(deferredSize);
+  // triangle = [];
 
   return (
     <div className="flex flex-col items-center w-max flex-wrap">
@@ -55,16 +60,36 @@ function PascalTriangle() {
             id="scale"
             value={scale}
             min={0}
-            step={0.1}
+            // step={0.1}
             max={10}
             onChange={(e) => setScale(+e.target.value)}
             placeholder="scale"
           />
         </div>
       </div>
+      {triangle.map((row, i) => (
+        <div
+          key={i}
+          className="flex flex-row items-center justify-center self-start"
+        >
+          {row.map((value, j) => (
+            <TriagElement
+              key={j}
+              color={
+                divider !== 0 && value % BigInt(divider) === BigInt(0)
+                  ? "red"
+                  : "white"
+              }
+              width={width}
+            >
+              {`${value}`}
+            </TriagElement>
+          ))}
+        </div>
+      ))}
       <Canvas
-        key={`${size} ${divider} ${width}`}
-        width={width}
+        key={`${deferredSize} ${divider} ${scale}`}
+        scale={scale}
         size={deferredSize}
         divider={divider}
       />
