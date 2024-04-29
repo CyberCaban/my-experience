@@ -67,7 +67,7 @@ function PascalTriangle() {
           />
         </div>
       </div>
-      {triangle.map((row, i) => (
+      {/*{triangle.map((row, i) => (
         <div
           key={i}
           className="flex flex-row items-center justify-center self-start"
@@ -86,7 +86,7 @@ function PascalTriangle() {
             </TriagElement>
           ))}
         </div>
-      ))}
+      ))}*/}
       <Canvas
         key={`${deferredSize} ${divider} ${scale}`}
         scale={scale}

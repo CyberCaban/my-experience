@@ -12,66 +12,29 @@ export function getPascalTriangle(size: number) {
   return triangle;
 }
 
-export function drawElement(
-  imageData: ImageData,
-  x: number,
-  y: number,
-  color: number[],
-  width: number
-) {
-  const i = (x + y * width) * 4;
-  imageData.data[i] = color[0];
-  imageData.data[i + 1] = color[1];
-  imageData.data[i + 2] = color[2];
-  imageData.data[i + 3] = 255;
-}
-
-function draw_rectangle(
-  row: number,
-  column: number,
-  color: string,
-  context: CanvasRenderingContext2D,
-  scale: number,
-  width: number
-) {
-  var middle = width / 2;
-  var offset = column - row / 2;
-  var x = middle + offset;
-  var y = row;
-
-  var posx = middle + scale * offset;
-  var posy = scale * y;
-
-  context.fillStyle = color;
-  context.fillRect(posx, posy, scale, scale);
-}
-
 export function drawTriangle(
-  rows: number,
-  divider: number,
-  context: CanvasRenderingContext2D,
+  triangle: bigint[][],
   width: number,
-  scale: number
+  xOffset: number,
+  yOffset: number,
+  scale: number,
+  modulo: number,
+  ctx: CanvasRenderingContext2D
 ) {
-  let value = 1 % divider;
-  draw_rectangle(1, 0, value === 0 ? "red" : "white", context, scale, width); //draw first row
+  let currX = width / 2;
+  for (let i = 0; i < triangle.length; i++) {
+    currX -= scale / 2;
+    currX -= xOffset / 2;
 
-  let prevRow = [0, 1, 0];
-  for (let currRow = 2; currRow <= rows; currRow++) {
-    let thisRow = [0];
-    for (var i = 0, len = prevRow.length - 1; i < len; i++) {
-      thisRow[i + 1] = (prevRow[i] + prevRow[i + 1]) % divider;
-      value = thisRow[i + 1];
-      draw_rectangle(
-        currRow,
-        i,
-        value % divider === 0 ? "red" : "white",
-        context,
-        scale,
-        width
-      );
+    let offX = currX;
+    for (let j = 0; j < triangle[i].length; j++) {
+      ctx.fillStyle = "gray";
+
+      if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
+        ctx.fillStyle = "red";
+
+      ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
+      offX += scale + xOffset;
     }
-    thisRow[i + 1] = 0;
-    prevRow = thisRow;
   }
 }
