@@ -17,11 +17,17 @@ export function drawTriangle(
   width: number,
   xOffset: number,
   yOffset: number,
+  cx: number,
+  cy: number,
   scale: number,
   modulo: number,
   ctx: CanvasRenderingContext2D
 ) {
-  let currX = width / 2;
+  //if (cx == 0) cx = width / 2;
+  //let currX = width / 2;
+  let currX = cx;
+  console.log(cx);
+
   for (let i = 0; i < triangle.length; i++) {
     currX -= scale / 2;
     currX -= xOffset / 2;
@@ -33,8 +39,22 @@ export function drawTriangle(
       if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
         ctx.fillStyle = "red";
 
-      ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
+      ctx.fillRect(offX, i * scale + i * yOffset + cy, scale, scale);
       offX += scale + xOffset;
     }
   }
+}
+
+var cx: number = 100;
+var cy: number = 0;
+export function moveCanvas(e: MouseEvent) {
+  //ctx.clearRect(0, 0, width, width);
+  console.log("test");
+
+  cx += e.movementX;
+  cy += e.movementY;
+  //return;
+  console.log(e.movementX, e.movementY);
+
+  //drawTriangle(triangle, width, xOffset, yOffset, scale, modulo, ctx);
 }

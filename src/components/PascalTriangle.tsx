@@ -11,8 +11,6 @@ function PascalTriangle() {
 
   const deferredSize = useDeferredValue(size);
 
-  let triangle = getPascalTriangle(deferredSize);
-  // triangle = [];
 
   return (
     <div className="flex flex-col items-center w-max flex-wrap">
