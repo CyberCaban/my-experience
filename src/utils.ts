@@ -34,6 +34,28 @@ export function drawTriangle(
         ctx.fillStyle = "red";
 
       ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
+
+      {
+        // horizontal lines
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.moveTo(0, i * scale + i * yOffset);
+        ctx.lineTo(width, i * scale + i * yOffset);
+        ctx.stroke();
+      }
+
+      {
+        // vertical lines
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.moveTo(offX, i * scale + i * yOffset);
+        ctx.lineTo(offX, i * scale + i * yOffset + scale);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "white"; // line numbers
+      ctx.font = `${scale / 2}px sans-serif`;
+      ctx.fillText(`${i + 1}`, 0, i * scale + i * yOffset + scale / 2);
       offX += scale + xOffset;
     }
   }

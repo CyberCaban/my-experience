@@ -6,7 +6,7 @@ import TriagElement from "./TriagElement";
 function PascalTriangle() {
   const [size, setSize] = useState(1);
   const [divider, setDivider] = useState(1);
-  const [width, setWidth] = useState(15);
+  // const [width, setWidth] = useState(15);
   const [scale, setScale] = useState<number>(1);
 
   const deferredSize = useDeferredValue(size);
@@ -41,7 +41,7 @@ function PascalTriangle() {
             placeholder="divider"
           />
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <label htmlFor="width">Width</label>
           <input
             type="number"
@@ -51,7 +51,7 @@ function PascalTriangle() {
             onChange={(e) => setWidth(parseInt(e.target.value))}
             placeholder="width"
           />
-        </div>
+        </div> */}
         <div className="flex flex-col">
           <label htmlFor="scale">Scale</label>
           <input
@@ -61,7 +61,7 @@ function PascalTriangle() {
             value={scale}
             min={0}
             // step={0.1}
-            max={10}
+            // max={}
             onChange={(e) => setScale(+e.target.value)}
             placeholder="scale"
           />
