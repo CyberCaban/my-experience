@@ -48,7 +48,7 @@
         "tsp": false,
         "webviewFixedRuntimePath": null,
         "webviewInstallMode": {
-          "silent": true,
+          "silent": false,
           "type": "downloadBootstrapper"
         },
         "wix": null

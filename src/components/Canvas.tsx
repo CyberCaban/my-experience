@@ -36,7 +36,7 @@ function Canvas({
         ).length
       );
     });
-    console.log(graphData);
+    // console.log(graphData);
     setStats(graphData);
 
     drawTriangle(triangle, xwidth, 0, 0, scale, divider, ctx);

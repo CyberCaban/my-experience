@@ -36,6 +36,17 @@ export function drawTriangle(
       ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
 
       {
+        // divider numbers
+        ctx.fillStyle = "black";
+        ctx.font = `${scale / 2}px sans-serif`;
+        ctx.fillText(
+          `${PrimeNumber(triangle[i][j], modulo)}`,
+          offX + scale / 2 - ctx.measureText(`${PrimeNumber(triangle[i][j], modulo)}`).width / 2,
+          i * scale + i * yOffset + scale / 2
+        );
+      }
+      
+      {
         // horizontal lines
         ctx.beginPath();
         ctx.fillStyle = "black";
@@ -60,3 +71,17 @@ export function drawTriangle(
     }
   }
 }
+
+function PrimeNumber(InputNumber: bigint, divider: number) {
+    let count = 0;
+    while(InputNumber >= divider && divider !== 1 && divider !== 0) {
+      if (InputNumber % BigInt(divider) == BigInt(0)) {
+          count++;
+          InputNumber /= BigInt(divider);
+      }
+      else {
+          break
+      }
+    }
+    return count;
+};
