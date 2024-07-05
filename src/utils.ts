@@ -28,24 +28,28 @@ export function drawTriangle(
 
     let offX = currX;
     for (let j = 0; j < triangle[i].length; j++) {
-      ctx.fillStyle = "gray";
+      ctx.fillStyle = "white";
+      const mod = intModulo(triangle[i][j], modulo);
+      {
+        // fill square
+        if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
+          ctx.fillStyle = `${generateUniqueColor(mod, true)}`;
+        else ctx.fillStyle = "gray";
 
-      if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
-        ctx.fillStyle = "red";
-
-      ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
+        ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
+      }
 
       {
         // divider numbers
         ctx.fillStyle = "black";
         ctx.font = `${scale / 2}px sans-serif`;
         ctx.fillText(
-          `${PrimeNumber(triangle[i][j], modulo)}`,
-          offX + scale / 2 - ctx.measureText(`${PrimeNumber(triangle[i][j], modulo)}`).width / 2,
+          `${mod}`,
+          offX + scale / 2 - ctx.measureText(`${mod}`).width / 2,
           i * scale + i * yOffset + scale / 2
         );
       }
-      
+
       {
         // horizontal lines
         ctx.beginPath();
@@ -63,25 +67,62 @@ export function drawTriangle(
         ctx.lineTo(offX, i * scale + i * yOffset + scale);
         ctx.stroke();
       }
-
-      ctx.fillStyle = "white"; // line numbers
-      ctx.font = `${scale / 2}px sans-serif`;
-      ctx.fillText(`${i + 1}`, 0, i * scale + i * yOffset + scale / 2);
+      {
+        // line numbers
+        ctx.fillStyle = "white";
+        ctx.font = `${scale / 2}px sans-serif`;
+        ctx.fillText(`${i + 1}`, 0, i * scale + i * yOffset + scale / 2);
+      }
+      // move to next square
       offX += scale + xOffset;
     }
   }
 }
 
-function PrimeNumber(InputNumber: bigint, divider: number) {
-    let count = 0;
-    while(InputNumber >= divider && divider !== 1 && divider !== 0) {
-      if (InputNumber % BigInt(divider) == BigInt(0)) {
-          count++;
-          InputNumber /= BigInt(divider);
-      }
-      else {
-          break
-      }
+function intModulo(InputNumber: bigint, divider: number) {
+  let count = 0;
+  while (InputNumber >= divider && divider !== 1 && divider !== 0) {
+    if (InputNumber % BigInt(divider) == BigInt(0)) {
+      count++;
+      InputNumber /= BigInt(divider);
+    } else {
+      break;
     }
-    return count;
-};
+  }
+  return count;
+}
+
+function generateUniqueColor(
+  mod: number,
+  nonUnique?: boolean,
+  seed: 1000 | 1001 | 1009 | 1030 | 1031 | 1032 | 1033 = 1000,
+) {
+  if (nonUnique)
+    switch (mod) {
+      case 0:
+        return "gray";
+      case 1:
+        return "red";
+      case 2:
+        return "#3333FF"; // blue
+      case 3:
+        return "green";
+      case 4:
+        return "yellow";
+      case 5:
+        return "purple";
+      case 6:
+        return "orange";
+      case 7:
+        return "cyan";
+      case 8:
+        return "magenta";
+      case 9:
+        return "brown";
+      case 10:
+        return "pink";
+      default:
+        return `#${(0xffffff & (mod << 10)).toString(16)}`;
+    }
+  return `#${(mod << seed) % 0xffffff}`;
+}

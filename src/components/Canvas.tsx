@@ -44,9 +44,11 @@ function Canvas({
 
   return (
     <>
-      <canvas id="canvas" ref={canvas} style={{}} className="m-16">
-        <p>Canvas not supported</p>
-      </canvas>
+      <div className="w-[calc(100vw-32px)] h-[calc(80vh)] overflow-auto">
+        <canvas id="canvas" ref={canvas} style={{}} className="m-16">
+          <p>Canvas not supported</p>
+        </canvas>
+      </div>
       <div className="p-16 flex flex-row">
         <Plot
           data={[
