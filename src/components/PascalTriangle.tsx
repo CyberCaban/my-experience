@@ -47,8 +47,6 @@ function PascalTriangle() {
             id="scale"
             value={scale}
             min={0}
-            // step={0.1}
-            // max={}
             onChange={(e) => setScale(+e.target.value)}
             placeholder="scale"
           />
