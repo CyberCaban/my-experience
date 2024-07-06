@@ -1,0 +1,1 @@
+export type colorPalette = 0 | 999 | 1000 | 1001 | 1009 | 1031 | 1032 | 1033;

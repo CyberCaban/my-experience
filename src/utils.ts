@@ -1,3 +1,5 @@
+import { colorPalette } from "./types";
+
 export function getPascalTriangle(size: number) {
   const triangle: bigint[][] = [];
   for (let i = 0; i < size; i++) {
@@ -19,7 +21,8 @@ export function drawTriangle(
   yOffset: number,
   scale: number,
   modulo: number,
-  ctx: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D,
+  colorPalette: colorPalette
 ) {
   let currX = width / 2;
   for (let i = 0; i < triangle.length; i++) {
@@ -28,12 +31,12 @@ export function drawTriangle(
 
     let offX = currX;
     for (let j = 0; j < triangle[i].length; j++) {
-      ctx.fillStyle = "white";
+      ctx.fillStyle = "gray";
       const mod = intModulo(triangle[i][j], modulo);
       {
         // fill square
         if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
-          ctx.fillStyle = `${generateUniqueColor(mod, true)}`;
+          ctx.fillStyle = `${generateUniqueColor(mod, !colorPalette, colorPalette)}`;
         else ctx.fillStyle = "gray";
 
         ctx.fillRect(offX, i * scale + i * yOffset, scale, scale);
@@ -41,7 +44,7 @@ export function drawTriangle(
 
       {
         // divider numbers
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
         ctx.font = `${scale / 2}px sans-serif`;
         ctx.fillText(
           `${mod}`,
@@ -81,6 +84,7 @@ export function drawTriangle(
 
 function intModulo(InputNumber: bigint, divider: number) {
   let count = 0;
+  if (Math.abs(divider) === 1) return 0;
   while (InputNumber >= divider && divider !== 1 && divider !== 0) {
     if (InputNumber % BigInt(divider) == BigInt(0)) {
       count++;
@@ -95,8 +99,9 @@ function intModulo(InputNumber: bigint, divider: number) {
 function generateUniqueColor(
   mod: number,
   nonUnique?: boolean,
-  seed: 1000 | 1001 | 1009 | 1030 | 1031 | 1032 | 1033 = 1000,
+  seed: colorPalette = 1000,
 ) {
+  if (seed == 999) return "#AA1111"
   if (nonUnique)
     switch (mod) {
       case 0:
@@ -122,7 +127,7 @@ function generateUniqueColor(
       case 10:
         return "pink";
       default:
-        return `#${(0xffffff & (mod << 10)).toString(16)}`;
+        return `#${((mod << seed) % 0xffffff).toString(16)}`;
     }
   return `#${(mod << seed) % 0xffffff}`;
 }
