@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "npm i",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri"
   },
