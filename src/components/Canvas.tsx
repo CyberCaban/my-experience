@@ -1,25 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { drawTriangle, getPascalTriangle } from "../utils";
-import Plot from "react-plotly.js";
-import { Popover as TinyPopover } from "react-tiny-popover";
+import { useStore } from "../store";
 
-function Canvas({
-  scale,
-  size,
-  divider,
-  colorPalette,
-}: {
-  scale: number;
-  size: number;
-  divider: number;
-  colorPalette: number;
-}) {
+function Canvas() {
+  const scale = useStore((state) => state.scale);
+  const divider = useStore((state) => state.divider);
+  const size = useStore((state) => state.size);
+  const colorPalette = useStore((state) => state.colorPalette);
+  const setStats = useStore((state) => state.setStats);
+
   const canvas = useRef<HTMLCanvasElement>(null);
-  const [stats, setStats] = useState<number[]>();
   const triangle = useMemo(() => getPascalTriangle(size), [size]);
 
-  const [popOverPos, setPopOverPos] = useState({ top: 0, left: 0 });
-  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
   const [popOverText, setPopOverText] = useState("");
 
   useEffect(() => {
@@ -47,7 +39,7 @@ function Canvas({
     setStats(graphData);
 
     drawTriangle(triangle, xwidth, 0, 0, scale, divider, ctx, colorPalette);
-  }, []);
+  }, [scale, divider, size, colorPalette]);
 
   const cellCollision = (e) => {
     let bounds = e.currentTarget.getBoundingClientRect();
@@ -71,17 +63,9 @@ function Canvas({
 
   return (
     <>
-      {/* <TinyPopover
-        isOpen={isPopOverOpen}
-        onClickOutside={() => setIsPopOverOpen(false)}
-        positions={["top", "bottom", "left", "right"]}
-        padding={0}
-        transform={popOverPos}
-      > */}
       <p className="px-3 py-2 text-center rounded-md bg-zinc-900">
         {popOverText ? popOverText : "no element selected"}
       </p>
-      {/* </TinyPopover> */}
       <div className="w-[calc(100vw-32px)] h-[calc(80vh)] overflow-auto">
         <canvas
           onMouseMove={(e) => cellCollision(e)}
@@ -92,26 +76,6 @@ function Canvas({
         >
           <p>Canvas not supported</p>
         </canvas>
-      </div>
-      <div className="p-16 flex flex-row">
-        <Plot
-          data={[
-            {
-              y: stats,
-              type: "scatter",
-            },
-          ]}
-          layout={{}}
-        />
-        <Plot
-          data={[
-            {
-              y: stats,
-              type: "waterfall",
-            },
-          ]}
-          layout={{}}
-        />
       </div>
     </>
   );
