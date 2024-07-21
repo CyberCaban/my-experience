@@ -74,7 +74,7 @@ export function drawTriangle(
         // line numbers
         ctx.fillStyle = "white";
         ctx.font = `${scale / 2}px sans-serif`;
-        ctx.fillText(`${i + 1}`, 0, i * scale + i * yOffset + scale / 2);
+        ctx.fillText(`${i}`, 0, i * scale + i * yOffset + scale / 2);
       }
       // move to next square
       offX += scale + xOffset;

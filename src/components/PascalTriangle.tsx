@@ -57,7 +57,7 @@ function PascalTriangle() {
             name="color_palette"
             id="color_palette"
             className="bg-zinc-900 px-3 py-2 rounded-md"
-            onChange={(e) => setColorPalette(+e.target.value)}
+              onChange={(e) => setColorPalette(+e.target.value as colorPalette)}
           >
             <option value="999">Default</option>
             <option value="0">Option 1</option>
