@@ -31,7 +31,7 @@ const createSizeStore: StateCreator<sizeSlice, [], [], sizeSlice> = (set) => ({
   setSize: (value) =>
     set((state) => {
       if (state.size === value) return state;
-      if (value < 1) return { size: 1 };
+      if (value < 1 || !value) return { size: 1 };
       return { size: value };
     }),
 });
@@ -39,10 +39,11 @@ const createSizeStore: StateCreator<sizeSlice, [], [], sizeSlice> = (set) => ({
 const createDividerStore: StateCreator<dividerSlice, [], [], dividerSlice> = (
   set
 ) => ({
-  divider: 0,
+  divider: 1,
   setDivider: (value) =>
     set((state) => {
       if (state.divider === value) return state;
+      if (value < 1 || !value) return { divider: 1 };
       return { divider: value };
     }),
 });

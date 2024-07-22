@@ -1,22 +1,13 @@
-import { useDeferredValue, useState } from "react";
 import Canvas from "./Canvas";
-import { getPascalTriangle } from "../utils";
-import TriagElement from "./TriagElement";
 import { colorPalette } from "../types";
 import { useStore } from "../store";
 import Plot from "react-plotly.js";
 
 function PascalTriangle() {
   const [size, setSize] = useStore((state) => [state.size, state.setSize]);
-  const [divider, setDivider] = useStore((state) => [
-    state.divider,
-    state.setDivider,
-  ]);
+  const [divider, setDivider] = useStore((state) => [state.divider, state.setDivider]);
   const [scale, setScale] = useStore((state) => [state.scale, state.setScale]);
-  const [colorPalette, setColorPalette] = useStore((state) => [
-    state.colorPalette,
-    state.setColorPalette,
-  ]);
+  const setColorPalette = useStore((state) => state.setColorPalette);
   const stats = useStore((state) => state.stats);
 
   return (
