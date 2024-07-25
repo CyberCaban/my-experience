@@ -1,3 +1,4 @@
+import { useStore } from "./store";
 import { colorPalette } from "./types";
 
 export function getPascalTriangle(size: number) {
@@ -24,15 +25,24 @@ export function drawTriangle(
   ctx: CanvasRenderingContext2D,
   colorPalette: colorPalette
 ) {
+  const modCount = [];
   let currX = width / 2;
   for (let i = 0; i < triangle.length; i++) {
     currX -= scale / 2;
     currX -= xOffset / 2;
 
+    const modCountRow = [];
+
     let offX = currX;
     for (let j = 0; j < triangle[i].length; j++) {
       ctx.fillStyle = "gray";
       const mod = intModulo(triangle[i][j], modulo);
+
+      {
+        // for stats
+        modCountRow.push(mod);
+      }
+
       {
         // fill square
         if (modulo && triangle[i][j] % BigInt(modulo) == BigInt(0))
@@ -79,10 +89,14 @@ export function drawTriangle(
       // move to next square
       offX += scale + xOffset;
     }
+
+    modCount.push(modCountRow);
   }
+
+  useStore.getState().setDividerCount(modCount);
 }
 
-function intModulo(InputNumber: bigint, divider: number) {
+export function intModulo(InputNumber: bigint, divider: number) {
   let count = 0;
   if (Math.abs(divider) === 1) return 0;
   while (InputNumber >= divider && divider !== 1 && divider !== 0) {

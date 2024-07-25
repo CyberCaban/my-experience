@@ -1,14 +1,21 @@
 import Canvas from "./Canvas";
 import { colorPalette } from "../types";
 import { useStore } from "../store";
-import Plot from "react-plotly.js";
+import Stats from "./Stats";
 
 function PascalTriangle() {
   const [size, setSize] = useStore((state) => [state.size, state.setSize]);
-  const [divider, setDivider] = useStore((state) => [state.divider, state.setDivider]);
+  const [divider, setDivider] = useStore((state) => [
+    state.divider,
+    state.setDivider,
+  ]);
   const [scale, setScale] = useStore((state) => [state.scale, state.setScale]);
   const setColorPalette = useStore((state) => state.setColorPalette);
-  const stats = useStore((state) => state.stats);
+
+  const [redrawCount, setRedrawCount] = useStore((state) => [
+    state.redrawCount,
+    state.incrementRedrawCount,
+  ]);
 
   return (
     <div className="flex flex-col items-center w-max flex-wrap">
@@ -67,28 +74,10 @@ function PascalTriangle() {
             <option value="1000">Option 7</option>
           </select>
         </div>
+        <button className="bg-blue-500" onClick={() => setRedrawCount()}>Draw</button>
       </div>
       <Canvas />
-      <div className="p-16 flex flex-row">
-        <Plot
-          data={[
-            {
-              y: stats,
-              type: "scatter",
-            },
-          ]}
-          layout={{}}
-        />
-        <Plot
-          data={[
-            {
-              y: stats,
-              type: "waterfall",
-            },
-          ]}
-          layout={{}}
-        />
-      </div>
+      <Stats />
     </div>
   );
 }

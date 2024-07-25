@@ -7,10 +7,10 @@ function Canvas() {
   const divider = useStore((state) => state.divider);
   const size = useStore((state) => state.size);
   const colorPalette = useStore((state) => state.colorPalette);
-  const setStats = useStore((state) => state.setStats);
+  const [setStats, redrawCount] = useStore((state) => [state.setElemCount, state.redrawCount]);
 
   const canvas = useRef<HTMLCanvasElement>(null);
-  const triangle = useMemo(() => getPascalTriangle(size), [size]);
+  const triangle = useStore((state) => getPascalTriangle(state.size));
 
   const [popOverText, setPopOverText] = useState("");
 
@@ -39,7 +39,7 @@ function Canvas() {
     setStats(graphData);
 
     drawTriangle(triangle, xwidth, 0, 0, scale, divider, ctx, colorPalette);
-  }, [scale, divider, size, colorPalette]);
+  }, [redrawCount]);
 
   const cellCollision = (e) => {
     let bounds = e.currentTarget.getBoundingClientRect();
@@ -66,7 +66,7 @@ function Canvas() {
       <p className="px-3 py-2 text-center rounded-md bg-zinc-900">
         {popOverText ? popOverText : "no element selected"}
       </p>
-      <div className="w-[calc(100vw-32px)] h-[calc(80vh)] overflow-auto">
+      <div className="w-[calc(100vw-32px)] h-[calc(50vh)] overflow-auto">
         <canvas
           onMouseMove={(e) => cellCollision(e)}
           id="canvas"
