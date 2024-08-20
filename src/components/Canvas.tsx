@@ -63,7 +63,7 @@ function Canvas() {
 
   return (
     <>
-      <p className="px-3 py-2 text-center rounded-md bg-zinc-900">
+      <p className="px-3 py-2 text-center rounded-md bg-transparent">
         {popOverText ? popOverText : "no element selected"}
       </p>
       <div className="w-[calc(100vw-32px)] h-[calc(50vh)] overflow-auto">

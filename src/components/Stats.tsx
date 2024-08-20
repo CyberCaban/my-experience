@@ -47,7 +47,7 @@ function Stats() {
   }, [divider, size]);
 
   return (
-    <div className="p-16 flex flex-row">
+    <div className="p-16 flex max-w-[calc(100vw-16rem)] flex-wrap justify-center">
       <Plot
         data={[
           {

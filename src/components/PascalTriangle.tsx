@@ -19,7 +19,7 @@ function PascalTriangle() {
 
   return (
     <div className="flex flex-col items-center w-max flex-wrap">
-      <div className="flex flex-row items-center self-start">
+      <div className="controls">
         <div className="flex flex-col m-2">
           <label htmlFor="size">Size</label>
           <input
